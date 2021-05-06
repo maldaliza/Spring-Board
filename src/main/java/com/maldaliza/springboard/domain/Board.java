@@ -1,5 +1,7 @@
 package com.maldaliza.springboard.domain;
 
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -7,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Getter @ToString
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Board {
@@ -15,9 +18,7 @@ public class Board {
     private Long id;
 
     private String title;
-
     private String author;
-
     private String content;
 
     @CreatedDate
@@ -26,4 +27,11 @@ public class Board {
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;
+
+    //== 글 쓰기 생성자 ==//
+    public Board(String title, String author, String content) {
+        this.title = title;
+        this.author = author;
+        this.content = content;
+    }
 }
