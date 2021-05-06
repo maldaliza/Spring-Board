@@ -1,6 +1,8 @@
 package com.maldaliza.springboard.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Getter @ToString
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 public class Board {
 
@@ -33,5 +36,13 @@ public class Board {
         this.title = title;
         this.author = author;
         this.content = content;
+    }
+
+    //== 글 목록 조회 생성자 ==//
+    public Board(Long id, String title, String author, LocalDateTime createdDate) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.createdDate = createdDate;
     }
 }
