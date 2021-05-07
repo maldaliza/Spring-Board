@@ -64,11 +64,10 @@ public class BoardController {
 
         // 1. DTO로 받아온 값들을 엔티티로 변환. (그래야지 id값이 주어지게 된다.)
         Board board = new Board(createBoardDto.getTitle(), createBoardDto.getAuthor(), createBoardDto.getContent());
-        System.out.println("board = " + board);
-        System.out.println("createBoardDto = " + createBoardDto);
 
         // 2. 글 저장
         Long boardId = boardService.savePost(board);
+
         return "redirect:/detail/" + boardId;
     }
 
@@ -80,6 +79,7 @@ public class BoardController {
      */
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
+
         log.info("detail");
 
         // 1. DTO 타입으로 id값에 해당하는 글을 가져온다.
@@ -89,5 +89,50 @@ public class BoardController {
         model.addAttribute("board", boardDto);
 
         return "board/detail";
+    }
+
+    /**
+     * 글 수정 폼 (GET)
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/update/{id}")
+    public String updatePostForm(@PathVariable("id") Long id, Model model) {
+        log.info("update post form");
+        BoardDto boardDto = boardService.findBoard(id);
+        model.addAttribute("board", boardDto);
+        return "board/updatePostForm";
+    }
+
+    /**
+     * 글 수정 처리 (POST)
+     * @param boardDto
+     * @return
+     */
+    @PostMapping("/update/{id}")
+    public String updatePostProcess(@ModelAttribute BoardDto boardDto) {
+
+        log.info("update post process");
+
+        // 1. 클라이언트에서 DTO로 받아온 값을 엔티티로 변환. (수정시에는 id값을 유지해야 한다!)
+        Board board = new Board(boardDto.getId(), boardDto.getTitle(), boardDto.getAuthor(), boardDto.getContent());
+
+        // 2. 글 저장
+        Long boardId = boardService.savePost(board);
+
+        return "redirect:/detail/" + boardId;
+    }
+
+    /**
+     * 글 삭제
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete/{id}")
+    public String deletePostProcess(@PathVariable("id") Long id) {
+        log.info("delete post process");
+        boardService.deletePost(id);
+        return "redirect:/";
     }
 }

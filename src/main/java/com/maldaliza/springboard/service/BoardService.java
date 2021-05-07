@@ -61,4 +61,13 @@ public class BoardService {
 
         return boardDto;
     }
+
+    /**
+     * 글 삭제
+     * @param id
+     */
+    @Transactional
+    public void deletePost(Long id) {
+        boardRepository.delete(id);
+    }
 }

@@ -48,4 +48,14 @@ public class H2BoardRepository implements BoardRepository {
         List<Board> boardList = entityManager.createQuery("select b from Board b", Board.class).getResultList();
         return boardList;
     }
+
+    /**
+     * 글 삭제
+     * @param id
+     */
+    @Override
+    public void delete(Long id) {
+        Board findBoard = entityManager.find(Board.class, id);
+        entityManager.remove(findBoard);
+    }
 }

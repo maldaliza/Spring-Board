@@ -37,4 +37,12 @@ public class Board {
         this.author = author;
         this.content = content;
     }
+
+    //== 글 수정 생성자 ==//
+    public Board(Long id, String title, String author, String content) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.content = content;
+    }
 }
