@@ -19,12 +19,13 @@ public class H2BoardRepository implements BoardRepository {
      * @param board
      */
     @Override
-    public void save(Board board) {
+    public Long save(Board board) {
         if (board.getId() == null) {
             entityManager.persist(board);
         } else {
             entityManager.merge(board);
         }
+        return board.getId();
     }
 
     /**

@@ -7,7 +7,7 @@ import java.util.List;
 public interface BoardRepository {
 
     // 글 저장
-    void save(Board board);
+    Long save(Board board);
 
     // 글 단건 조회
     Board findOne(Long id);

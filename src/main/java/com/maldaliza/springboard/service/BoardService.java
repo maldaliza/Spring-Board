@@ -1,6 +1,7 @@
 package com.maldaliza.springboard.service;
 
 import com.maldaliza.springboard.domain.Board;
+import com.maldaliza.springboard.dto.BoardDto;
 import com.maldaliza.springboard.dto.BoardListDto;
 import com.maldaliza.springboard.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,12 @@ public class BoardService {
     /**
      * 글 저장
      * @param board
+     * @return
      */
     @Transactional
-    public void savePost(Board board) {
-        boardRepository.save(board);
+    public Long savePost(Board board) {
+        Long savedId = boardRepository.save(board);
+        return savedId;
     }
 
     /**
@@ -41,5 +44,21 @@ public class BoardService {
                 .collect(Collectors.toList());
 
         return boardDtoList;
+    }
+
+    /**
+     * 글 상세보기 조회
+     * @param id
+     * @return
+     */
+    public BoardDto findBoard(Long id) {
+
+        // 1. Repository에서 id에 해당하는 글을 가져온다.
+        Board board = boardRepository.findOne(id);
+
+        // 2. 엔티티 타입에서 DTO 타입으로 변환.
+        BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getAuthor(), board.getContent());
+
+        return boardDto;
     }
 }
